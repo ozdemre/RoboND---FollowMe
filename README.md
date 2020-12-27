@@ -4,6 +4,13 @@
 
 This is my implementation of Udacity Robotics Software NanoDegree Program Follow-Me Deep Learning project. You are reading writeup!
 
+For the reviewer here is the files:
+1. [Jupyter Notebook Model Training](./RoboND-FollowMe/code/model_training.ipynb)
+2. [HTML version of Model Training](./RoboND-FollowMe/code/model_training.html)
+3. [Model File](./RoboND-FollowMe/data/weights/model_weights)
+4. [Weights File](./RoboND-FollowMe/data/weights/config_model_weights)
+    
+
 **Motivation**
 
 In this project, we built a Fully Convolutional Network(FCN) for performing semantic segmentation on a 
@@ -15,6 +22,10 @@ for obtaining spatial information for semantic segmentation. Skip connections ca
 Although many different types of network architecture is possible, I followed my common sense and built my network with 3 encoder layers followed by 1x1 layer and lastly 3 decoder layers.
 For details of filters and overall architecture see picture given below
 
+
+
+
+
 Network picture and Layer sizes here
 
 **Network parameters**
@@ -25,7 +36,16 @@ Model parameters and results are given.
 
 HyperParameter Table here
 
-HyperParameter Space
+ | Learning Rate | Batch Size | # of Epochs | Steps per Epoch
+--- | --- | --- | --- | ---
+FCN1 | 0.01 | 32 | 50 | 200
+FCN2 | 0.01 | 32 | 50 | 100
+FCN3 | 0.01 | 32 | 100 | 100
+FCN4 |  0.004 | 32 | 60 | 100
+FCN5 |  0.004 | 64 | 60 | 100
+
+
+**HyperParameter Space**
 
 **FCN1:**
 Initially I started with FCN1 where parameters as chosen as what "I expect to be around mean"
@@ -33,34 +53,53 @@ Even though model is trained in 2 hours (150 seconds per epoch) accuracy was low
 And training curve shows that model starts to overfit around 50 epochs for this learning rate, 
 as training loss keep decreasing whereas validation loss seem to be constant
 
-FCN1-Training Curve here
-FCN1-Hero-Test-1 Here
-FCN1-Hero-Test-2 Here
+![alt text][image1]
+![alt text][image2]
+![alt text][image3]
 
+**FCN2:**
 Than I move to FCN2 where I want to investigate the effect of Steps per Epoch parameter. I decreased it to 100 which reduced training time to half (1 hour).
 At the end overall accuracy almost same with the FCN1, so I decided to use Steps per Epoch as 100.
 This gave me a big training time improvement, allowing me to try different iterations.
 
-FCN2-Training Curve here
+![alt text][image4]
 
+**FCN3:**
 Thirdly, I increased Number of Epochs to 100 to see whether or nor model is overfitting and what it's effect on accuracy results.
 Training took roughly 2 hours and overall accuracy was %40.7 which is higher than requirement :)
 Here is the training curve for FCN3. As it can be seen model starts to overfit around 60 epochs for 0.01 learning rate, which is something we don't want.
 
-FCN3-Training Curve here
+![alt text][image5]
 
+**FCN4:**
 After this result, I decided to play with learning rate, while keeping in mind that 60 epochs baseline.
 So I decreased Learning rate to 0.004 and epochs to 60. Training took roughly 3 hours and overall accuracy was %42. !Yay!
 
 
-FCN4-Training Curve here
-FCN4-Hero-Test-1 Here
-FCN4-Hero-Test-2 Here
-FCN4-Hero-Test-3 Here
+![alt text][image6]
+![alt text][image7]
+![alt text][image8]
+![alt text][image9]
 
+**FCN5:**
 I was happy with the FCN4 however I want to investigate the effect of Batch size.
 For the FCN5 I increased to batch size to 64 which decreased the overall accuracy to %40.4
 So I decided to stick with batch size of 32.
 
+![alt text][image10]
+
+
 Training 
 
+
+
+[image1]: ./misc/clustering.JPG
+[image2]: ./misc/FCN1-Training%20Curve.jpg
+[image3]: ./misc/FCN1-Hero-Test-1.jpg
+[image4]: ./misc/FCN1-Hero-Test-2.jpg
+[image5]: ./misc/FCN2-Training%20Curve.jpg
+[image6]: ./misc/FCN3-Training%20Curve.jpg
+[image7]: ./misc/FCN4-Training%20Curve.jpg
+[image8]: ./misc/FCN4-Hero-Test-1.jpg
+[image9]: ./misc/FCN4-Hero-Test-2.jpg
+[image10]: ./misc/FCN4-Hero-Test-3.jpg

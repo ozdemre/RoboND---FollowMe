@@ -164,8 +164,9 @@ After training is completed, I downloaded the model weight file and test it on t
 Here is [YouTube link](https://www.youtube.com/watch?v=7AhVeR6glBs) where I tested my model within the simulator.
 
 **My Comments and Future Enhancements:**
-**Data:** As it is pointed many times in the classes, data quality is very important. Since we started with pre-collected data and have an option of collect 
-more from the simulator it is easy to train the model once network is created. Even though I didn't we do have an option to collect more ata from simulator to increase accuracy.
+
+**Data:** As it is pointed many times in the classes, data quality is very important. Since we started with pre-collected data and have an option of collecting even 
+more from the simulator it is easy to train the model once network is created. Even though I didn't more data from simulator can help to increase accuracy.
 However, in real a world implementation, I presume this will be more challenging as it requires quite a lot of work to collect thousands of images (maybe with depth info), 
 labelling them and doing normalization. I definitely would like to follow these steps outside of the simulator world and take the real-world 
 implementation challenges.
@@ -175,7 +176,7 @@ or collision avoidance. For the simulator world this was not needed but for futu
 
 
 **Tensorflow Version:** For his project we used Tensorflow v1.2.1. However, there are significant changes on Tensorflow v2 which is currently used one. 
-I had struggle to find the documentations for most of the functions we used as the links are outdated. 
+I had struggle to find the documentations for most of the functions we used, as the links are outdated. 
 As a future study I will try to grasp the changes on v2 and try to implement these steps again.
 
 **Overall:** Even though Neural Networks and Deep Learning was a completely new concept to me, I managed to build a well 

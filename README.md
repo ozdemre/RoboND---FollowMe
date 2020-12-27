@@ -32,7 +32,7 @@ def encoder_block(input_layer, filters, strides):
     return output_layer
 ```
 Bilinear upsampling, skip connections and batch normalization is applied in the decoder_block function 
-Skip connections can also be used to improve spatial information accuracy.
+Skip connections also used to improve spatial information accuracy.
 
 
 ```python

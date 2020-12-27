@@ -16,13 +16,13 @@ For the reviewer here is the files:
 
 In this project, we built a Fully Convolutional Network(FCN) for performing semantic segmentation on a 
 quadcopter simulation for following red hero. FCN's are similar to Convolutional Neural Networks (CNN) where difference comes from adding deconvolution layers (decoder) 
-for obtaining spatial information for semantic segmentation. Skip connections can also be used to improve spatial information accuracy.
+for obtaining spatial information for semantic segmentation. 
 
 **Network Architecture**
 
 Although many different types of network architecture is possible, I followed common sense and built my network with 3 encoder layers followed by 1x1 layer and lastly 3 decoder layers.
 For details of filters and overall architecture see picture given below. 1x1 convolution layer is used to preserve the spatial information. For each block same padding and ReLu activation is used.
-Encoder layers is used for performing convolutions and highlighting features from raw input. Batch normalization is applied in the encoder_block function.  
+Encoder layers are used for performing convolutions and highlighting features from raw input. Batch normalization is applied in the encoder_block function.  
 
 ```python
 def encoder_block(input_layer, filters, strides):
@@ -31,7 +31,8 @@ def encoder_block(input_layer, filters, strides):
     output_layer = separable_conv2d_batchnorm(input_layer, filters, strides)
     return output_layer
 ```
-Bilinear upsampling, skip connections and batch normalization is applied in the decoder_block function For both encoder and decoder layers batch normalization is applied.
+Bilinear upsampling, skip connections and batch normalization is applied in the decoder_block function For both encoder and decoder layers batch normalization is applied.Skip connections can also be used to improve spatial information accuracy.
+
 
 ```python
 def decoder_block(small_ip_layer, large_ip_layer, filters):

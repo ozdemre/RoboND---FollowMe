@@ -31,7 +31,8 @@ def encoder_block(input_layer, filters, strides):
     output_layer = separable_conv2d_batchnorm(input_layer, filters, strides)
     return output_layer
 ```
-Bilinear upsampling, skip connections and batch normalization is applied in the decoder_block function For both encoder and decoder layers batch normalization is applied.Skip connections can also be used to improve spatial information accuracy.
+Bilinear upsampling, skip connections and batch normalization is applied in the decoder_block function 
+Skip connections can also be used to improve spatial information accuracy.
 
 
 ```python
@@ -67,7 +68,7 @@ def fcn_model(inputs, num_classes):
     return layers.Conv2D(num_classes, 1, activation='softmax', padding='same')(decoder1)
 ```
 
-With these properties network is able to perform semantic segmentation by constantly optimizing each layers weights. 
+With these properties network is able to perform semantic segmentation by constantly optimizing each layers weights with backpropagation. 
 Each encoder block is capturing some features(edges, curves) from it's input.
 
 **Important thing here is FCN does this on by own!**

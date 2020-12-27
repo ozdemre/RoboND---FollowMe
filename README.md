@@ -21,10 +21,57 @@ for obtaining spatial information for semantic segmentation. Skip connections ca
 **Network Architecture**
 
 Although many different types of network architecture is possible, I followed common sense and built my network with 3 encoder layers followed by 1x1 layer and lastly 3 decoder layers.
-For details of filters and overall architecture see picture given below. 1x1 convolution used instead of fully connected layers in order to preserve the spatial information. 
-And encoder layers is used for performing convolutions and highlighting features from raw input. Important thing here is FCN does this on by own!
+For details of filters and overall architecture see picture given below. 1x1 convolution layer is used to preserve the spatial information. For each block same padding and ReLu activation is used.
+Encoder layers is used for performing convolutions and highlighting features from raw input. Batch normalization is applied in the encoder_block function.  
 
-Network picture and Layer sizes here
+```python
+def encoder_block(input_layer, filters, strides):
+    
+    # TODO Create a separable convolution layer using the separable_conv2d_batchnorm() function.
+    output_layer = separable_conv2d_batchnorm(input_layer, filters, strides)
+    return output_layer
+```
+Bilinear upsampling, skip connections and batch normalization is applied in the decoder_block function For both encoder and decoder layers batch normalization is applied.
+
+```python
+def decoder_block(small_ip_layer, large_ip_layer, filters):
+    
+    # TODO Upsample the small input layer using the bilinear_upsample() function.
+    upsample_layer = bilinear_upsample(small_ip_layer)
+    # TODO Concatenate the upsampled and large input layers using layers.concatenate
+    concat_layer = layers.concatenate([upsample_layer, large_ip_layer])
+    # TODO Add some number of separable convolution layers
+    output_layer = separable_conv2d_batchnorm(concat_layer, filters, 1)
+    return output_layer
+```
+
+And lastly full network is combined with following function
+
+```python
+def fcn_model(inputs, num_classes):
+    
+    # TODO Add Encoder Blocks. 
+    # Remember that with each encoder layer, the depth of your model (the number of filters) increases.
+    encoder1 = encoder_block(inputs, 64, 2)
+    encoder2 = encoder_block(encoder1, 128, 2)
+    encoder3 = encoder_block(encoder2, 256, 2)
+    # TODO Add 1x1 Convolution layer using conv2d_batchnorm().
+    one_by_one = conv2d_batchnorm(encoder3, 256, kernel_size = 1, strides = 1)
+    # TODO: Add the same number of Decoder Blocks as the number of Encoder Blocks
+    decoder3 = decoder_block(one_by_one, encoder2, 256)
+    decoder2 = decoder_block(decoder3, encoder1, 128)
+    decoder1 = decoder_block(decoder2, inputs, 64)
+    
+    # The function returns the output layer of your model. "x" is the final layer obtained from the last decoder_block()
+    return layers.Conv2D(num_classes, 1, activation='softmax', padding='same')(decoder1)
+```
+
+With these properties network is able to perform semantic segmentation by constantly optimizing each layers weights. 
+Each encoder block is capturing some features(edges, curves) from it's input.
+
+**Important thing here is FCN does this on by own!**
+
+![alt text][image1]
 
 **Network parameters**
 
@@ -38,7 +85,7 @@ Here is the summary of all model parameters and results.
 | FCN1| 0.01 | 32  | 50  | 200 | 50  | 0.0115 | 0.0246 | 2 hours | %38.6 |
 | FCN2| 0.01  | 32  | 50  | 100 | 50 | 0.0131 | 0.0320 | 1 hours | %38.3 |
 | FCN3| 0.01 | 32  | 100 | 100 | 50  | 0.0097 | 0.0306 | 2 hours | %40.7  |
-| FCN4|  0.004| 32  | 60  | 100 | 50  | 0.0137 | 0.0232 | 2 hours | **%42**   |
+| FCN4|  0.004| 32  | 60  | 100 | 50  | 0.0137 | 0.0232 | 3 hours | **%42**   |
 | FCN5|  0.004 | 64  | 60  | 100 | 50  | 0.0110 | 0.0289 | 3 hours | %40.4 |
 
 
@@ -58,7 +105,7 @@ as training loss keep decreasing whereas validation loss seem to be constant
 **FCN2:**
 Than I move to FCN2 where I want to investigate the effect of Steps per Epoch parameter. I decreased it to 100 which reduced training time to half (1 hour).
 At the end overall accuracy almost same with the FCN1, so I decided to use Steps per Epoch as 100.
-This gave me a big training time improvement, allowing me to try different iterations.
+This gave me significant training time improvement, allowing me to try different iterations.
 
 ![alt text][image5]
 
@@ -72,7 +119,7 @@ Here is the training curve for FCN3. As it can be seen model starts to overfit a
 
 **FCN4:**
 After this result, I decided to play with learning rate, while keeping in mind that 60 epochs baseline.
-So I decreased Learning rate to 0.004 and epochs to 60. Training took roughly 3 hours and overall accuracy was %42. !Yay!
+So I decreased Learning rate to 0.004 and epochs to 60. Training took roughly 3 hours and overall accuracy was %42. **!Yay!**
 
 
 
@@ -104,7 +151,7 @@ validation_steps = 50
 
 workers = 2
 
-With these settings, it took 2 hours to train the model in Udacity Workspace with GPU enabled. Overall accuracy is %42. 
+With these settings, it took 3 hours to train the model in Udacity Workspace with GPU enabled. Overall accuracy is %42. 
 
 After training is completed, I downloaded the model weight file and test it on the simulator.
 
@@ -120,16 +167,16 @@ In this network we train our model only to detect and perform segmentation on a 
 Therefore, it has no ability to detect other objects such as cars, trees, dogs, buildings which might be needed for other segmentation requests 
 or collision avoidance. For the simulator world this was not needed but for future improvements this is also something to consider.
 
-**Tensorflow Version:** For his project we used Tensorflow v1.2.1. However, there are significant changes on Tensorflow v.2 which is currently used one. 
+**Tensorflow Version:** For his project we used Tensorflow v1.2.1. However, there are significant changes on Tensorflow v2 which is currently used one. 
 I had struggle to find the documentations for most of the functions we used as the links are outdated. 
 As a future study I will try to grasp the changes on v2 and try to implement these steps again.
 
 **Overall:** Even though Neural Networks and Deep Learning was a completely new concept to me, I managed to build a well 
 working network from scratch and experiment on the hyperparameter space within a few weeks thanks to well prepared and concise lessons & lab studies. 
-In the future would like to work on this field more, however, I will finish the last lectures of Term-1 and move on to Term-2 for other cool projects!
+In the future I would like to work on this field more, however, I will finish the last lectures of Term-1 and move on to Term-2 for other cool projects!
 
 
-[image1]: ./misc/clustering.JPG
+[image1]: ./misc/FCN_Layout.jpg
 [image2]: ./misc/FCN1-Training%20Curve.jpg
 [image3]: ./misc/FCN1-Hero-Test-1.jpg
 [image4]: ./misc/FCN1-Hero-Test-2.jpg

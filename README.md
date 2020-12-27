@@ -31,7 +31,7 @@ def encoder_block(input_layer, filters, strides):
     output_layer = separable_conv2d_batchnorm(input_layer, filters, strides)
     return output_layer
 ```
-Bilinear upsampling, skip connections and batch normalization is applied in the decoder_block function 
+Bilinear upsampling, skip connections and batch normalization is applied in the decoder_block function. 
 Skip connections also used to improve spatial information accuracy.
 
 

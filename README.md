@@ -94,7 +94,7 @@ Here is the summary of all model parameters and results.
 **HyperParameter Space**
 
 **FCN1:**
-Initially I started with FCN1 where parameters as chosen as what "I expect to be around mean"
+Initially I started with FCN1 where parameters as chosen as what "I expect to be around mean".
 Even though model is trained in 2 hours (150 seconds per epoch) accuracy was lower than %40. 
 And training curve shows that model starts to overfit around 50 epochs for this learning rate, 
 as training loss keep decreasing whereas validation loss seem to be constant
@@ -113,7 +113,7 @@ This gave me significant training time improvement, allowing me to try different
 
 
 **FCN3:**
-Thirdly, I increased Number of Epochs to 100 to see whether or nor model is overfitting and what it's effect on accuracy results.
+Thirdly, I increased Number of Epochs to 100 to see whether or not model is overfitting and what it's effect on accuracy results.
 Training took roughly 2 hours and overall accuracy was %40.7 which is higher than requirement :)
 Here is the training curve for FCN3. As it can be seen model starts to overfit around 60 epochs for 0.01 learning rate, which is something we don't want.
 
@@ -136,6 +136,10 @@ So I decided to stick with batch size of 32.
 
 ![alt text][image10]
 
+
+As a last step I was working on trying FCN6 which is same configuration with FCN4 where only difference is increased epoch number(150).
+Aim of this step was to check the model for overfitting with new  0.004 learning rate, as number of epoch = 60 is based on different learning rate (0.01).
+But unfortunately ~6 hours of model training is interrupted around 3 hours and since I already have an accuracy over %40 I didn't try it again. 
 
 **Training** 
 
@@ -161,13 +165,14 @@ Here is [YouTube link](https://www.youtube.com/watch?v=7AhVeR6glBs) where I test
 
 **My Comments and Future Enhancements:**
 **Data:** As it is pointed many times in the classes, data quality is very important. Since we started with pre-collected data and have an option of collect 
-more from the simulator it is easy to train the model once network is created. However, in real a world implementation, 
-I presume this will be more challenging as it requires quite a lot of work to collect thousands of images (maybe with depth info), 
+more from the simulator it is easy to train the model once network is created. Even though I didn't we do have an option to collect more ata from simulator to increase accuracy.
+However, in real a world implementation, I presume this will be more challenging as it requires quite a lot of work to collect thousands of images (maybe with depth info), 
 labelling them and doing normalization. I definitely would like to follow these steps outside of the simulator world and take the real-world 
 implementation challenges.
 In this network we train our model only to detect and perform segmentation on a particular object (red hero). 
 Therefore, it has no ability to detect other objects such as cars, trees, dogs, buildings which might be needed for other segmentation requests 
 or collision avoidance. For the simulator world this was not needed but for future improvements this is also something to consider.
+
 
 **Tensorflow Version:** For his project we used Tensorflow v1.2.1. However, there are significant changes on Tensorflow v2 which is currently used one. 
 I had struggle to find the documentations for most of the functions we used as the links are outdated. 

@@ -33,13 +33,13 @@ Each training model is named as FCN1-5 where architecture is same but hyperparam
 Here is the summary of all model parameters and results.
 
 
-Model Name| Learning Rate | Batch Size | # of Epochs | Steps per Epoch | Validation Loss | Training Time | Accuracy
---- | --- | --- | --- | --- | --- | --- | --- | --- | --- 
-FCN1 | 0.01 | 32 | 50 | 200 | 50 | 0.0115 | 0.0246 | 2 hours | 38.6 
-FCN2 | 0.01 | 32 | 50 | 100 | 50 | 0.0131 | 0.0320 | 1 hours | 38.3 
-FCN3 | 0.01 | 32 | 100 | 100 | 50 | 0.0097 | 0.0306 | 2 hours | 40.7 
-FCN4 |  0.004 | 32 | 60 | 100 | 50 | 0.0137 | 0.0232 | 2 hours | 42 
-FCN5 |  0.004 | 64 | 60 | 100 | 50 | 0.0110 | 0.0289 | 3 hours | 40.4 
+| Model Name| Learning Rate | Batch Size | # of Epochs | Steps per Epoch | Validation Steps | Loss| Validation Loss | Training Time | Accuracy |
+|  ---   | --- | ---   | ---    | ---  | --- | ---    | ---    | ---     | ---  |
+| FCN1| 0.01 | 32  | 50  | 200 | 50  | 0.0115 | 0.0246 | 2 hours | %38.6 |
+| FCN2| 0.01  | 32  | 50  | 100 | 50 | 0.0131 | 0.0320 | 1 hours | %38.3 |
+| FCN3| 0.01 | 32  | 100 | 100 | 50  | 0.0097 | 0.0306 | 2 hours | %40.7  |
+| FCN4|  0.004| 32  | 60  | 100 | 50  | 0.0137 | 0.0232 | 2 hours | **%42**   |
+| FCN5|  0.004 | 64  | 60  | 100 | 50  | 0.0110 | 0.0289 | 3 hours | %40.4 |
 
 
 **HyperParameter Space**
